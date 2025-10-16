@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+        }
+
+        code {
+            font-size: 16px;
+        }
+
+        .parent-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 25px;
+            width: 500px;
+            border: 1px solid #cacaca;
+            border-radius: 5px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+
+        .parent-container p {
+            color: #454545;
+        }
+
+        .parent-container h3 {
+            text-align: center;
+        }
+
+        .backup-codes {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            background-color: #f6f6f6;
+            border-radius: 5px;
+        }
+
+        .save-instructions {
+            margin-left: 20px;
+        }
+
+        .set-1, .set-2 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .backup-codes code {
+            padding: 2px;
+        }
+
+        #important {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .save-instructions p {
+            padding: 2px;
+        }
+
+        .save-instructions code {
+            background-color: #ededed;
+            padding: 0 5px;
+            border: 1px solid #cacaca;
+            border-radius: 2px;
+        }
+
+    </style>
+    <body>
+        <div class="parent-container">
+            <h3>Backup Codes</h3>
+            <p>Below are your MFA backup codes:</p>
+            <div class="backup-codes">
+                <div class="set-1">
+                    <code>8152 1892</code>
+                    <code>2317 3212</code>
+                    <code>0498 6457</code>
+                    <code>0685 6415</code>
+                </div>
+                <div class="set-2">
+                    <code>6548 4171</code>
+                    <code>1337 1337</code>
+                    <code>6581 3541</code>
+                    <code>5740 6415</code>
+                </div>
+            </div>
+            <p>To save these backup codes, please follow the instructions below:</p>
+            <div class="save-instructions">
+                <p>1. Use <code>Ctrl</code> + <code>S</code> to save this page</p>
+                <p>2. Name the file <code>2FABackupCodes2025.hta</code></p>
+                <p>3. Open the file to confirm the codes are securely stored</p>
+            </div>
+            <p id="important">Once you use a backup code to sign in, that code becomes inactive.</p>
+        </div>
+    </body>
+</html>
