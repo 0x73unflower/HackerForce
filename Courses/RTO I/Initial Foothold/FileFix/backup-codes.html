@@ -3,6 +3,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
         * {
             padding: 0;
             margin: 0;
@@ -16,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: sans-serif;
+            font-family: roboto, sans-serif;
         }
 
         code {
@@ -29,7 +31,7 @@
             gap: 20px;
             padding: 25px;
             width: 500px;
-            border: 1px solid #cacaca;
+            /* border: 1px solid #cacaca; */
             border-radius: 5px;
             box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         }
@@ -78,14 +80,34 @@
             background-color: #ededed;
             padding: 0 5px;
             border: 1px solid #cacaca;
-            border-radius: 2px;
+            border-radius: 3px;
+        }
+
+        .secure {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #e2ffe1;
+            border: 1px solid rgb(106, 161, 106);
+            border-radius: 3px;
+            padding: 3px;
+        }
+
+        .secure img {
+            width: 12px;
+            height: 12px;
+        }
+
+        .secure p, .secure code {
+            font-size: 12px;
+            color: rgb(106, 161, 106);
         }
 
     </style>
     <body>
         <div class="parent-container">
             <h3>Backup Codes</h3>
-            <p>Below are your MFA backup codes:</p>
+            <p>Below are your MFA backup codes. You may only use each code once:</p>
             <div class="backup-codes">
                 <div class="set-1">
                     <code>8152 1892</code>
@@ -106,7 +128,12 @@
                 <p>2. Name the file <code>2FABackupCodes2025.hta</code></p>
                 <p>3. Open the file to confirm the codes are securely stored</p>
             </div>
-            <p id="important">Once you use a backup code to sign in, that code becomes inactive.</p>
+            <!-- <p id="important">Once you use a backup code to sign in, that code becomes inactive.</p> -->
+            <div class="secure">
+                <!-- Icon by Icons8 https://icons8.com/icon/3312/lock -->
+                <img src="icons8-padlock.svg">
+                <p><code>.hta</code> storage solutions provide strong, irreversible security solutions, offering peace of mind regarding how your secrets are stored!</p>
+            </div>
         </div>
     </body>
 </html>
