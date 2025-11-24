@@ -13,7 +13,7 @@
 /* Take snapshot of all processes and locate 'explorer.exe'*/
 DWORD GetExplorerPID() {
     /* Take a snapshot of all processes */
-    HANDLE sShot = CreateToolhelp32Snapshot(PROCESS_ALL_ACCESS, 0);
+    HANDLE sShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     /* 'PROCESSENTRY32W' describes an entry from 'CreateToolhelp32Snapshot' */
     PROCESSENTRY32W snapshotEntry = { 0 };
     snapshotEntry.dwSize = sizeof(snapshotEntry);
