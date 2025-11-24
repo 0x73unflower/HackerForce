@@ -16,6 +16,7 @@ pe = pefile.PE(module)
 for symbol in pe.DIRECTORY_ENTRY_EXPORT.symbols:
     if symbol.name:
 	    symbol = symbol.name.decode("UTF-8")
-	    print(f'#pragma comment(linker, "/export:{symbol}={module[:-4]}.{symbol}")')
-	    if modulePath:
+	    if not modulePath:
+	        print(f'#pragma comment(linker, "/export:{symbol}={module[:-4]}.{symbol}")')
+	    else:
 	        print(f'#pragma comment(linker, "/export:{symbol}={modulePath}{module[:-4]}.{symbol}")')
