@@ -2,13 +2,13 @@
 #include <windows.h>
 
 SERVICE_STATUS gSvcStatus = {
-    .dwServiceType = SERVICE_WIN32_OWN_PROCESS,
-    .dwCurrentState = 0,
-    .dwControlsAccepted = 0,
-    .dwWin32ExitCode = 0,
-    .dwServiceSpecificExitCode = 0,
-    .dwCheckPoint = 0,
-    .dwWaitHint = 0
+	.dwServiceType = SERVICE_WIN32_OWN_PROCESS,
+	.dwCurrentState = 0,
+	.dwControlsAccepted = 0,
+	.dwWin32ExitCode = 0,
+	.dwServiceSpecificExitCode = 0,
+	.dwCheckPoint = 0,
+	.dwWaitHint = 0
 };
 
 SERVICE_STATUS_HANDLE gSvcStatusHandle;
@@ -26,25 +26,25 @@ SERVICE_STATUS_HANDLE gSvcStatusHandle;
  *	  "\xd5"; */
 
 void Handler(DWORD dwControl) {
-    switch (dwControl) {
+	switch (dwControl) {
 	case SERVICE_CONTROL_STOP:
-    	gSvcStatus.dwCurrentState = SERVICE_STOPPED;
-    	gSvcStatus.dwControlsAccepted = 0;
-    	gSvcStatus.dwCheckPoint = 0;
-    	SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
-    	break;
-    case SERVICE_CONTROL_SHUTDOWN:
-    	gSvcStatus.dwCurrentState = SERVICE_STOPPED;
-    	gSvcStatus.dwControlsAccepted = 0;
-    	gSvcStatus.dwCheckPoint = 0;
-    	SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
-    	break;
-    }
+		gSvcStatus.dwCurrentState = SERVICE_STOPPED;
+		gSvcStatus.dwControlsAccepted = 0;
+		gSvcStatus.dwCheckPoint = 0;
+		SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
+		break;
+	case SERVICE_CONTROL_SHUTDOWN:
+		gSvcStatus.dwCurrentState = SERVICE_STOPPED;
+		gSvcStatus.dwControlsAccepted = 0;
+		gSvcStatus.dwCheckPoint = 0;
+		SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
+		break;
+	}
 }
 
 void ServiceMain(DWORD dwNumServicesArgs, LPSTR* lpServiceArgVectors) {
 	/* Register a handler function to handle control requests for the service */
-	gSvcStatusHandle = RegisterServiceCtrlHandlerA("ShellcodeService", (LPHANDLER_FUNCTION)Handler);
+	gSvcStatusHandle = RegisterServiceCtrlHandlerW(L"ShellcodeService", (LPHANDLER_FUNCTION)Handler);
 
 	/* Indicate SCM that service is starting */
 	gSvcStatus.dwCurrentState = SERVICE_START_PENDING;
@@ -93,13 +93,13 @@ void ServiceMain(DWORD dwNumServicesArgs, LPSTR* lpServiceArgVectors) {
 }
 
 int wmain() {
-	/* Initialize members of SERVICE_TABLE_ENTRY for StartServiceCtrlDispatcherA */
-	SERVICE_TABLE_ENTRYA lpServiceStartTable[] = {
-		{"ShellcodeService", (LPSERVICE_MAIN_FUNCTIONA)ServiceMain},
+	/* Initialize members of SERVICE_TABLE_ENTRYW for StartServiceCtrlDispatcherW */
+	SERVICE_TABLE_ENTRYW lpServiceStartTable[] = {
+		{L"ShellcodeService", (LPSERVICE_MAIN_FUNCTIONW)ServiceMain},
 		{NULL, NULL}
 	};
 
 	/* Connect the main thread of the service process to SCM */
-	StartServiceCtrlDispatcherA(lpServiceStartTable);
+	StartServiceCtrlDispatcherW(lpServiceStartTable);
 	return 0;
 }
